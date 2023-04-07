@@ -18,7 +18,6 @@ This is a simple product search and sorting app built with React, Typescript, an
 </ul>
 
 ## Getting Started
-<hr>
 
 To get started, clone this repository and install the dependencies:
 
@@ -63,7 +62,6 @@ This app uses the following dependencies:
 This app fetches product data from the [Fake Store API](https://fakestoreapi.com/), a free public API for testing and prototyping e-commerce applications.
 
 ## Folder Structure
-<hr>
 
 * [searching-yard-assignment](./searching-yard-assignment)
     * [node_modules](./node_modules)
