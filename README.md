@@ -2,7 +2,6 @@
 
 ## React-Vite Product Search and Sorting App
 
-<hr>
 
 This is a simple product search and sorting app built with React, Typescript, and Styled Components. It fetches product data from the [Fake Store API](https://fakestoreapi.com/) and allows users to search and sort products based on various criteria.
 
@@ -95,7 +94,6 @@ Please make sure to update tests as appropriate.
 
 
 ## Screenshot
-<hr>
 
 ![ScreenShot](./screenshot.png)
 
