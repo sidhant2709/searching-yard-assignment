@@ -47,6 +47,21 @@ This will start the app on http://localhost:5173
     <li>Axios</li>
 </ul>
 
+## Dependencies
+This app uses the following dependencies:
+
+<ul>
+    <li>axios: For making HTTP requests</li>
+    <li>react: For building user interfaces</li>
+    <li>react-dom: For rendering components to the DOM</li>
+    <li>styled-components: For styling React components</li>
+    <li>typescript: For adding static types to Javascript</li>
+</ul>
+
+
+## API Used
+This app fetches product data from the [Fake Store API](https://fakestoreapi.com/), a free public API for testing and prototyping e-commerce applications.
+
 ## Folder Structure
 <hr>
 
@@ -87,7 +102,6 @@ Please make sure to update tests as appropriate.
 ![ScreenShot](./screenshot.png)
 
 ## React Vite
-<hr>
 
 To Create a project in vite go to the link [Vite](https://vitejs.dev/guide/)
 
