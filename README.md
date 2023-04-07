@@ -62,7 +62,7 @@ This app fetches product data from the [Fake Store API](https://fakestoreapi.com
 
 ## Folder Structure
 
-* [searching-yard-assignment](./)
+* [searching-yard-assignment](https://github.com/sidhant2709/searching-yard-assignment)
     * [public](./public/)
     * [src](./src/)
         * [components](./src/components/)
