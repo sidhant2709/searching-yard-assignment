@@ -34,6 +34,30 @@ yarn run dev
 
 This will start the app on http://localhost:5173
 
+<hr>
+
+## If you want to use Redux
+
+Paste the below code in the  [main.tsx](./src/main.tsx) file
+
+```js
+  import React from "react";
+  import ReactDOM from "react-dom/client";
+  import App from "./AppRedux";
+  import "./index.css";
+  import { Provider } from "react-redux";
+  import store from "./store/store";
+
+  ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  );
+```
+<hr>
+
 
 ## Tech Stack
 
@@ -43,6 +67,7 @@ This will start the app on http://localhost:5173
     <li>TypeScript</li>
     <li>Styled Components</li>
     <li>Axios</li>
+    <li>Redux</li>
 </ul>
 
 ## Dependencies
@@ -54,6 +79,7 @@ This app uses the following dependencies:
     <li>react-dom: For rendering components to the DOM</li>
     <li>styled-components: For styling React components</li>
     <li>typescript: For adding static types to Javascript</li>
+    <li>Redux-ToolKit: for state management</li>
 </ul>
 
 
@@ -65,12 +91,18 @@ This app fetches product data from the [Fake Store API](https://fakestoreapi.com
 * [searching-yard-assignment](https://github.com/sidhant2709/searching-yard-assignment)
     * [public](./public/)
     * [src](./src/)
+        * [store](./src/components/)
+            * [store.ts](./src/store/store.ts)
+            * [productSlice.ts](./src/store/productSlice.ts)
         * [components](./src/components/)
             * [Loader.tsx](./src/components/Loader.tsx)
             * [ProductGrid.tsx](./src/components/ProductGrid.tsx)
         * [styles](./src/styles/)
             * [pageStyle.ts](./src/styles/pageStyle.ts)
+        * [types](./src/types/)
+            * [types.ts](./src/types/types.ts)
         * [App.tsx](./src/App.tsx)
+        * [AppRedux.tsx](./src/AppRedux.tsx)
         * [App.css](./src/App.css)
         * [index.css](./src/index.css)
         * [main.tsx](./src/main.tsx)

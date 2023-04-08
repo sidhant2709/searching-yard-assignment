@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "@reduxjs/toolkit";
 import "./App.css";
 import {
   Container,
@@ -16,81 +19,78 @@ import {
 } from "./styles/pageStyle";
 import Loader from "./components/Loader";
 import ProductGrid from "./components/ProductGrid";
+import { RootState } from "./store/store";
+import {
+  fetchProducts,
+  setFilterTerm,
+  setSuggestions,
+  clearSuggestions,
+  setSortBy,
+} from "./store/productSlice";
 
 import { Product } from "./types/types";
 
 const App = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [suggestions, setSuggestions] = useState<Product[]>([]);
-  const [sortBy, setSortBy] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch: ThunkDispatch<RootState, void, AnyAction> = useDispatch();
+  const { products, searchTerm, suggestions, sortBy, isLoading } = useSelector(
+    (state: RootState) => state.products
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const [womenResponse, maleResponse] = await Promise.all([
-          axios.get<Product[]>(
-            `https://fakestoreapi.com/products/category/women's%20clothing`
-          ),
-          axios.get<Product[]>(
-            `https://fakestoreapi.com/products/category/men's%20clothing`
-          ),
-        ]);
-        setProducts([...womenResponse.data, ...maleResponse.data]);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
     const query = event.target.value.toLowerCase().trim();
+    dispatch(setFilterTerm(query));
     if (query.length > 0) {
-      const matchingProducts = products.filter((product) =>
+      const matchingProducts = products.filter((product: any) =>
         product.title.toLowerCase().includes(query)
       );
-      setSuggestions(matchingProducts.slice(0, 5));
+      dispatch(setSuggestions(matchingProducts.slice(0, 5)));
     } else {
-      setSuggestions([]);
+      dispatch(clearSuggestions());
     }
   };
 
   const handleClearSearch = () => {
-    setSearchTerm("");
-    setSuggestions([]);
+    dispatch(setFilterTerm(""));
+    dispatch(clearSuggestions());
   };
 
   const handleSuggestionClick = (product: Product) => {
-    setSearchTerm(product.title);
-    setSuggestions([]);
+    dispatch(setFilterTerm(product.title));
+    dispatch(clearSuggestions());
   };
 
   const handleSort = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setSortBy(event.target.value);
+    dispatch(setSortBy(event.target.value));
   };
 
-  const filteredProducts = products.filter((product) =>
+  const filteredProducts = products.filter((product: any) =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (sortBy === "price-lowest") {
-    filteredProducts.sort((a, b) => a.price - b.price);
+    filteredProducts.sort(
+      (a: { price: number }, b: { price: number }) => a.price - b.price
+    );
   } else if (sortBy === "price-highest") {
-    filteredProducts.sort((a, b) => b.price - a.price);
+    filteredProducts.sort(
+      (a: { price: number }, b: { price: number }) => b.price - a.price
+    );
   } else if (sortBy === "rating-lowest") {
-    filteredProducts.sort((a, b) => a.rating.rate - b.rating.rate);
+    filteredProducts.sort(
+      (a: { rating: { rate: number } }, b: { rating: { rate: number } }) =>
+        a.rating.rate - b.rating.rate
+    );
   } else if (sortBy === "rating-highest") {
-    filteredProducts.sort((a, b) => b.rating.rate - a.rating.rate);
+    filteredProducts.sort(
+      (a: { rating: { rate: number } }, b: { rating: { rate: number } }) =>
+        b.rating.rate - a.rating.rate
+    );
   }
 
   return (
@@ -114,7 +114,7 @@ const App = () => {
 
           {suggestions.length > 0 && (
             <SuggestionsList>
-              {suggestions.map((product) => (
+              {suggestions.map((product: any) => (
                 <SuggestionsItem
                   key={product.id}
                   onClick={() => handleSuggestionClick(product)}
@@ -124,6 +124,7 @@ const App = () => {
               ))}
             </SuggestionsList>
           )}
+
           <FiltersContainer>
             <FiltersContainerInside>
               <FilterLabel>
@@ -170,7 +171,6 @@ const App = () => {
               </FilterLabel>
             </FiltersContainerInside>
           </FiltersContainer>
-
           <ProductGrid filteredProducts={filteredProducts} />
         </>
       )}
